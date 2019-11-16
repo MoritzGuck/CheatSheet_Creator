@@ -5,7 +5,14 @@
 
     "doc title":{
         "size": 16,
-        "x": 30, 
-        "y": -45
+        "x": 25, 
+        "y": 550
+    },
+
+    "table style":{
+        "grid lines":true,
+        "grid color":"grey",
+        "font left column":"Helvetica",
+        "font right column":"Courier"
     }
 }

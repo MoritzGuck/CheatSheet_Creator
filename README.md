@@ -7,7 +7,7 @@ A program that creates cheatsheets from JSON-files.
 CheatSheet_Creator relies on ReportLabs open source libary. You can install it like this from your terminal: 
 
     $ cd CheatSheet_Creator
-    $ python -m virtualenv .
+    ($ python -m virtualenv .)
     $ . bin/activate
     $ pip install reportlab
 
