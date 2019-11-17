@@ -22,9 +22,7 @@ def place_doc_title(canvas, doc):
     """places the title at the location defined in design.json
     Args:
         canvas (Canvas): canvas object from reportlab
-        doc_title (string): Title of the document
-        x (int): x coordinate
-        y (int): y coordinate
+        doc (string): Title of the document
     """
     x = gl_design["doc title"]["x"]
     y = gl_design["doc title"]["y"]
@@ -39,10 +37,9 @@ def place_doc_title(canvas, doc):
 def merge_paragraphs_from_content(content):
     """Concatenate the paragraphs defined in the content file
     Args:
-        canvas (canvas object): canvas object from reportlab
         content (Dict): paragraphs containing title and content of the paragraphs
     Returns:
-        list: list of paragraph objects that are than used to fill the object
+        story (List): list of paragraph objects that are than used to fill the object
     """
     story = []
     for paragraph_obj  in content["paragraphs"]:
@@ -57,7 +54,6 @@ def merge_paragraphs_from_content(content):
 def define_text_paragraph(title, text):
     """Put together title and text of a paragraph
     Args:
-        canvas (Canvas): canvas object from reportlab
         title (string): Title of the paragraph
         text (string): Text of the paragraph
     Returns:
@@ -68,6 +64,12 @@ def define_text_paragraph(title, text):
     return [paragraph_title, paragraph_text]
 
 def gen_table_style(table_style_specs): # TODO get rid of either this function or format_table_styles
+    """generates table_style object according to the specifications of ReportLab
+    Args:
+        table_style_spec (Dict): table style specifications from design.json
+    Returns:
+        style_list (list): table_style object
+    """
     style_list = TableStyle()
     if table_style_specs["grid lines"] == True:
         style_list.add("GRID", (0,0), (-1,-1), 0.5, color_dict[table_style_specs["grid color"]])
@@ -78,6 +80,13 @@ def gen_table_style(table_style_specs): # TODO get rid of either this function 
     return style_list
 
 def format_table_content(table_content, table_style_specs): # TODO get rid of either this function or gen_table_style
+    """Format the content of the separate table cells via paragraph styles
+    Args:
+        table_content (Dict): Unformatted table content
+        table_style_spec (Dict): table style specifications from design.json
+    Returns:
+        table_content (Dict): The same content, but now within Paragraphs
+    """
     n_rows = len(table_content)
     n_cols = len(table_content[0])
     for row_idx in range(0, n_rows):
@@ -95,9 +104,9 @@ def format_table_content(table_content, table_style_specs): # TODO get rid of e
 def define_table_paragraph(title, table_content, table_style):
     """Put together title and text of a paragraph
     Args:
-        canvas (Canvas): canvas object from reportlab
         title (string): Title of the paragraph
         text (string): Text of the paragraph
+        table_style (Reportlab tablestyle): Table style object from Reportlab according to specifications in design.json
     Returns:
         list: paragraph-object for title, paragraph-object for text
     """
@@ -110,7 +119,7 @@ def define_table_paragraph(title, table_content, table_style):
 def gen_file_name(title):
     """Generates the name of the PDF-file from the "doc title" in the json file.
     Args:
-        content (dict): content from the json file
+        title (string): title of the file according to content.json 
     Returns:
         string: file_name of the pdf-file
     """
@@ -118,6 +127,15 @@ def gen_file_name(title):
     return file_name
 
 def page_template(page_width, page_height, n_cols, first_page = False):
+    """defines the page template for the cheat sheet
+    Args:
+        page_width (int): width of the shee in img points
+        page_height (int): height of the sheet in img points
+        n_cols (int): number of columns in the file
+        first_page (bool, optional): defines, if it is the first page - if yes, than there is additional space for header. Defaults to False.
+    Returns:
+        page_template (Reportlab PageTemplate): page template object
+    """
     left_margin = 20
     right_margin = 20
     top_margin = 20
@@ -149,17 +167,11 @@ if __name__ == "__main__":
     with open(content["document setup"]["design file"]) as design_file:
         design = json.load(design_file)
 
+    # set up cheat sheet
     gl_doc_setup = content["document setup"]
     gl_design = design
     first_page_template = page_template(841.89,595.27, 3, True)
     doc = BaseDocTemplate(filename=gen_file_name(content["document setup"]["doc title"]), pagesize=(841.89,595.27), pageTemplates=[first_page_template])
-
-    #c = canvas.Canvas(filename = "phello.pdf", pagesize=(841.89,595.27))
-    #c.translate(0,595.27) # moves the origin of the coordinates to the upper left corner
-    #c.showPage()
-    #c.save()
-
-    #place_doc_title(first_page_template, content["document setup"]["doc title"], design["doc title"]["x"], design["doc title"]["y"])
     
     story = merge_paragraphs_from_content(content)
     doc.build(story)
