@@ -1,20 +1,39 @@
 # CheatSheet_Creator
 
-A program that creates cheatsheets from JSON-files.
+A program that creates programming-cheatsheets from JSON-files.
+
+## Features
+
+At the moment, the following features are supported:
+- Document title (with adaptable size and position)
+- Text paragraphs 
+- Table paragraphs (with adaptabe fonts and colors)
+
+Take a look at the [VS Code Cheatsheet](VS&#32;Code&#32;Cheatsheet.pdf) to get an idea.
+
+All changes to the content of the cheatsheet are made in [content.json](content.json). (This should be self explanatory - if not: raise an issue.)
+
+Changes to the design are made in [design.json](design.json). (A documentation will follow once more adaptations are available.)
 
 ## Set-up
 
-CheatSheet_Creator relies on ReportLabs open source libary. You can install it like this from your terminal: 
+CheatSheet_Creator relies on ReportLab's open source libary. You can install it like this from your terminal:
+
+Making your own virtual enviroment:
+
+    $ python -m virtualenv .  
+    $ pip install reportlab
+
+Using the virtual environment:
 
     $ cd CheatSheet_Creator
-    ($ python -m virtualenv .)
     $ . bin/activate
-    $ pip install reportlab
+    $ cd ..
 
 A userguide for reportlab can be found here: https://www.reportlab.com/docs/reportlab-userguide.pdf
 
 ## Run the code
 
-Create a PDF-cheatsheet by running in your terminal
+Create a PDF-cheatsheet by running [pdf_generator.py](pdf_generator.py) in your terminal
 
-    python pdf_generator.py
+    $ python pdf_generator.py --contentfile content.json

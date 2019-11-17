@@ -1,0 +1,62 @@
+{
+    "document setup": {
+        "doc title": "VS Code Cheatsheet",
+        "design file": "design.json"
+    },
+    "paragraphs": [
+        {
+            "title":"Intro",
+            "text":"This is a code cheat sheet about the code editor Visual Studio Code on Mac OS. VS code contains tools for debugging, refactoring, git and many more. Via extensions a plethora of additional tools can be installed."
+        },
+        {
+            "title":"Navigating IDE",
+            "table":[
+                ["Show command view", "cmd+shift+P"],
+                ["Show quick open view", "cmd+P"],
+                ["Switch to terminal", "ctrl+shift+`"],
+                ["Switch open files", "ctrl+tab"],
+                ["Toggle sidebar", "cmd+B"],
+                ["Create split editor", "shift+ctrl+alt+7"],
+                ["Switch to split editor 1/2/3", "cmd+1/2/3"],
+                ["Close editor tab", "cmd+w"],
+                ["Reopen closed editor tab", "cmd+shift+T"],
+                ["Show extension menu", "cmd+shift+X"],
+                ["Show file explorer menu", "cmd+shift+E"],
+                ["Show debug menu", "cmd+shift+D"]
+            ]
+        },
+        {
+            "title":"Navigating code",
+            "table":[
+                ["Go to beginning/end of line", "cmd+left/right"],
+                ["Go to beginning/end of word", "alt+left/right"],
+                ["Go to beginning/end of word", "alt+left/right"],
+                ["Go to matching bracket", "ctrl+alt+cmd+7"],
+                ["Go to definition", "ctrl+alt+cmd+d"],
+                ["Go to line number ...", "ctrl+g"],
+                ["Go to symbol ...", "cmd+shift+o"]
+            ]        
+        },
+        {
+            "title":"Editing code",
+            "table":[
+                ["Copy line", "cmd+c"],
+                ["Cut line", "cmd+x"],
+                ["Delete line", "cmd+shift+k"],
+                ["Insert line above", "cmd+shift+enter"],
+                ["Insert line below", "cmd+enter"],
+                ["Copy-paste line up/down", "alt+shift+up/down"],
+                ["Switch with line above/below", "alt+up/down"],
+                ["comment-out line", "cmd+/"],
+                ["Find and replace", "cmd+alt+f"]
+            ]        
+        },
+        {
+            "title":"Selecting code",
+            "table":[
+                ["select line", "cmd+l"]
+
+            ]        
+        }
+    ]
+}

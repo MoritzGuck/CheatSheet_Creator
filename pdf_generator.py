@@ -4,9 +4,10 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate,BaseDocTemplate, TableStyle, PageTemplate, Paragraph, Table, Spacer, Frame
 from reportlab.lib.units import inch
 import json
-styles = getSampleStyleSheet()
+import argparse
 
 # global document variables
+styles = getSampleStyleSheet()
 gl_design = {}
 gl_doc_setup = {} 
 
@@ -46,7 +47,7 @@ def merge_paragraphs_from_content(content):
     story = []
     for paragraph_obj  in content["paragraphs"]:
         if "table" in paragraph_obj.keys():
-            paragraph = define_table_paragraph(paragraph_obj["title"], paragraph_obj["table"], gen_table_style(gl_design["table style"]))
+            paragraph = define_table_paragraph(paragraph_obj["title"], format_table_content(paragraph_obj["table"], gl_design["table style"]), gen_table_style(gl_design["table style"]))
         elif "text" in paragraph_obj.keys():
             paragraph = define_text_paragraph(paragraph_obj["title"], paragraph_obj["text"])
         story.append(paragraph[0])
@@ -66,7 +67,7 @@ def define_text_paragraph(title, text):
     paragraph_text = Paragraph(text, styles["Normal"])
     return [paragraph_title, paragraph_text]
 
-def gen_table_style(table_style_specs):
+def gen_table_style(table_style_specs): # TODO get rid of either this function or format_table_styles
     style_list = TableStyle()
     if table_style_specs["grid lines"] == True:
         style_list.add("GRID", (0,0), (-1,-1), 0.5, color_dict[table_style_specs["grid color"]])
@@ -75,6 +76,21 @@ def gen_table_style(table_style_specs):
     if "font right column" in table_style_specs.keys():
         style_list.add("FONTNAME", (1,0), (1,-1), table_style_specs["font right column"])
     return style_list
+
+def format_table_content(table_content, table_style_specs): # TODO get rid of either this function or gen_table_style
+    n_rows = len(table_content)
+    n_cols = len(table_content[0])
+    for row_idx in range(0, n_rows):
+        for col_idx in range(0, n_cols):
+            if "font left column" in table_style_specs.keys() and col_idx == 0:
+                current_style = styles["Normal"]
+                current_style.fontName = table_style_specs["font left column"]
+                table_content[row_idx][col_idx] = Paragraph(table_content[row_idx][col_idx], current_style)
+            if "font right column" in table_style_specs.keys() and col_idx == n_cols-1:
+                current_style = styles["Normal"]
+                current_style.fontName = table_style_specs["font right column"]
+                table_content[row_idx][col_idx] = Paragraph(table_content[row_idx][col_idx], current_style)
+    return table_content
 
 def define_table_paragraph(title, table_content, table_style):
     """Put together title and text of a paragraph
@@ -86,10 +102,8 @@ def define_table_paragraph(title, table_content, table_style):
         list: paragraph-object for title, paragraph-object for text
     """
     paragraph_title = Paragraph(title, styles["Heading2"])
-    for row_idx in range(0,len(table_content)):
-        for col_idx in range(0, len(table_content[row_idx])):
-            table_content[row_idx][col_idx] = Paragraph(table_content[row_idx][col_idx], styles["Normal"]) # TODO make paragraph styles as defined in designx.isdisjoint(y)
-    paragraph_table = Table(table_content, style=table_style) # TODO table style is not able to overwrite paragraph styles
+    # TODO Clean up the mess with format_table_content and gen_table_styles. If table_styles cannot overwrite the paragraph styles, make one function with 2 outputs.
+    paragraph_table = Table(table_content, style=table_style) 
     paragraph_table.hAlign = "LEFT"
     return [paragraph_title, paragraph_table]
 
@@ -121,8 +135,16 @@ def page_template(page_width, page_height, n_cols, first_page = False):
     page_template = PageTemplate(frames=[page_frame_left, page_frame_middle, page_frame_right], onPage=place_doc_title) 
     return page_template
 
+    
 if __name__ == "__main__":
-    with open("example.json") as content_file:  
+    # parse arguments:
+    parser = argparse.ArgumentParser(description="create combinations of shapelets")
+    parser.add_argument("--contentfile", required=False,
+                        help="relative path and name of contentfile.json", default="content.json")
+    args = parser.parse_args()
+
+    # open files:
+    with open(args.contentfile) as content_file:  
         content = json.load(content_file)    
     with open(content["document setup"]["design file"]) as design_file:
         design = json.load(design_file)
