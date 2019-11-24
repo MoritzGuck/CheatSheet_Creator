@@ -5,6 +5,8 @@ from reportlab.platypus import SimpleDocTemplate,BaseDocTemplate, TableStyle, Pa
 from reportlab.lib.units import inch
 import json
 import argparse
+import re
+import yaml
 
 # global document variables
 styles = getSampleStyleSheet()
@@ -17,6 +19,14 @@ color_dict = {
     "black":colors.black,
     "darkblue":colors.darkblue
 }
+
+def open_file(file_name):
+    if re.match(r'\w+.yml$|\w+.yaml$|\w+.json$', file_name):
+        with open(file_name) as file:  
+            dictionary = yaml.load(file, Loader=yaml.FullLoader)
+    else:
+        raise TypeError("wrong file type. please use .json, .yml or .yaml files.")
+    return dictionary
 
 def place_doc_title(canvas, doc):
     """places the title at the location defined in design.json
@@ -162,10 +172,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # open files:
-    with open(args.contentfile) as content_file:  
-        content = json.load(content_file)    
-    with open(content["document setup"]["design file"]) as design_file:
-        design = json.load(design_file)
+    content = open_file(args.contentfile)
+    design = open_file(content["document setup"]["design file"])
 
     # set up cheat sheet
     gl_doc_setup = content["document setup"]

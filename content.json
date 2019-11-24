@@ -32,7 +32,7 @@
                 ["Go to beginning/end of word", "alt+left/right"],
                 ["Go to beginning/end of word", "alt+left/right"],
                 ["Go to matching bracket", "ctrl+alt+cmd+7"],
-                ["Go to definition", "ctrl+alt+cmd+d"],
+                ["Go to definition", "shift+alt+cmd+d"],
                 ["Go to line number ...", "ctrl+g"],
                 ["Go to symbol ...", "cmd+shift+o"]
             ]        
@@ -54,8 +54,17 @@
         {
             "title":"Selecting code",
             "table":[
-                ["select line", "cmd+l"]
-
+                ["Select line", "cmd+l"],
+                ["Select previous/next letter", "shift+left/right"],
+                ["Select previous/next word", "shift+alt+left/right"],
+                ["Expand/reduce selection", "shift+ctrl+right/left"]
+            ]        
+        },
+        {
+            "title":"Running code",
+            "table":[
+                ["Run code", "ctrl+alt+n"],
+                ["Debug code", "ctrl+alt+d"]
             ]        
         }
     ]
