@@ -21,6 +21,14 @@ color_dict = {
 }
 
 def open_file(file_name):
+    """open files
+    Args:
+        file_name (str): name of input file
+    Raises:
+        TypeError: [description]
+    Returns:
+        [type]: [description]
+    """
     if re.match(r'\w+.yml$|\w+.yaml$|\w+.json$', file_name):
         with open(file_name) as file:  
             dictionary = yaml.load(file, Loader=yaml.FullLoader)
@@ -69,8 +77,12 @@ def define_text_paragraph(title, text):
     Returns:
         list: paragraph-object for title, paragraph-object for text
     """
-    paragraph_title = Paragraph(title, styles["Heading2"])
-    paragraph_text = Paragraph(text, styles["Normal"])
+    title_style = styles["Heading2"]
+    title_style.fontSize = gl_design["par style"]["font-size title"]
+    paragraph_title = Paragraph(title, title_style)
+    text_style = styles["Normal"]
+    text_style.fontSize = gl_design["par style"]["font-size text"]
+    paragraph_text = Paragraph(text, text_style)
     return [paragraph_title, paragraph_text]
 
 def gen_table_style(table_style_specs): # TODO get rid of either this function or format_table_styles
@@ -99,14 +111,14 @@ def format_table_content(table_content, table_style_specs): # TODO get rid of e
     """
     n_rows = len(table_content)
     n_cols = len(table_content[0])
+    current_style = styles["Normal"]
+    current_style.fontSize = table_style_specs["font-size"] 
     for row_idx in range(0, n_rows):
         for col_idx in range(0, n_cols):
             if "font left column" in table_style_specs.keys() and col_idx == 0:
-                current_style = styles["Normal"]
                 current_style.fontName = table_style_specs["font left column"]
                 table_content[row_idx][col_idx] = Paragraph(table_content[row_idx][col_idx], current_style)
             if "font right column" in table_style_specs.keys() and col_idx == n_cols-1:
-                current_style = styles["Normal"]
                 current_style.fontName = table_style_specs["font right column"]
                 table_content[row_idx][col_idx] = Paragraph(table_content[row_idx][col_idx], current_style)
     return table_content
@@ -121,6 +133,7 @@ def define_table_paragraph(title, table_content, table_style):
         list: paragraph-object for title, paragraph-object for text
     """
     paragraph_title = Paragraph(title, styles["Heading2"])
+    paragraph_title.fontSize = gl_design["par style"]["font-size title"]
     # TODO Clean up the mess with format_table_content and gen_table_styles. If table_styles cannot overwrite the paragraph styles, make one function with 2 outputs.
     paragraph_table = Table(table_content, style=table_style) 
     paragraph_table.hAlign = "LEFT"
@@ -155,7 +168,7 @@ def page_template(page_width, page_height, n_cols, first_page = False):
     col_width = (page_width-left_margin-right_margin-spacer_betw_cols*2)/n_cols
     col_height = page_height - top_margin - bottom_margin
     if first_page:
-         col_height = col_height - first_page_top_spacer
+        col_height = col_height - first_page_top_spacer
     page_frame_left = Frame(x1 = left_margin, y1 = bottom_margin, width = col_width, height = col_height, id=None, showBoundary=0)
     page_frame_middle = Frame(left_margin+col_width+spacer_betw_cols, bottom_margin, col_width, col_height, id=None, showBoundary=0)
     page_frame_right = Frame(left_margin+2*col_width+2*spacer_betw_cols, bottom_margin, col_width, col_height, id=None, showBoundary=0)

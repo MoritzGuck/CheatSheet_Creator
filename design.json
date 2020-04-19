@@ -13,6 +13,11 @@
         "grid lines":true,
         "grid color":"grey",
         "font left column":"Helvetica",
-        "font right column":"Courier"
+        "font right column":"Courier",
+        "font-size":8
+    },
+    "par style":{
+        "font-size title":10,
+        "font-size text":8
     }
 }

@@ -1,0 +1,49 @@
+document setup:  
+    doc title: VIM Cheatsheet
+    design file: design.json
+    
+paragraphs: 
+    -
+        title: Remarks
+        text: "*x* symbolizes a number, *s* symbolizes a symbol/character."
+    -
+        title: Navigating
+        table: 
+            - ["move cursor *x* times up, down, left, right"         ,"*x* k,j,h,l"]   
+            - ["move *x* words forward/backward (to first letter)"   ,"*x* w,b"]   
+            - ["move *x* actual words forward"              ,"*x*W"]   
+            - ["move *x* words forward (to end)"            ,"*x*e"]   
+            - ["move *x* forward/backward one sentence"     ,") , ("]   
+            - ["jump to corresponding symbol"               ,"%"]   
+            - ["jump to beginning/end of file"              ,"gg , G"]   
+            - ["jump to line *x*"                           ,"*x*G"]   
+            - ["jump to top/middle/bottom of screen"        ,"H , M , L"]   
+    -
+        title: Editing code
+        table:
+            - [change inside *s*            , ci*s*]
+            - [change up to *s*             , ct*s*]
+            - [insert before cursor         , i]
+            - [insert after cursor          , a]
+            - [insert on new line below     , o]
+            - [insert on new line above     , O]
+            - [delete inside *s*            , di*s*]
+            - [delete surrounding *s* (brackets)   , ds*s*]
+            - [find and replace             , ":%s/*source*/*target*/gc"]
+            - [delete character             , x]
+            - [delete word                  , daw]
+            - [replace character            , r]
+    -
+        title: Selecting code
+        table: 
+            - [text selection mode          , v]
+            - [select line                  , V]
+            - [copy selected text           , y]
+            - [cut/delete current line      , dd]
+            - [copy current line            , yy]
+            - [paste copied text            , p]
+            - [paste over text behind cursor, 1vp]
+
+
+                    
+        
