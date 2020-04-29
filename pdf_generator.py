@@ -37,7 +37,14 @@ def gen_file_name(output_path, title):
     return file_name
 
 class Document:
+    """The document class for storing variables for the entire cheatsheet
+    """
     def __init__(self, document, design):
+        """
+        Args:
+            document (Dict): content_file dictionary containting the setup and paragraphs
+            design (Dict): Design_file dictionary containing the stylings
+        """
         self.doc_metdata = document["document setup"]
         self.content = document["paragraphs"] 
         self.design = design
@@ -66,8 +73,6 @@ class Document:
 
     def merge_paragraphs_from_content(self):
         """Concatenate the paragraphs defined in the content file
-        Args:
-            content (Dict): paragraphs containing title and content of the paragraphs
         Returns:
             story (List): list of paragraph objects that are than used to fill the object
         """
@@ -104,7 +109,7 @@ class Document:
             table_content (Dict): Unformatted table content
             table_style_spec (Dict): table style specifications from design.json
         Returns:
-            table_content (Dict): The same content, but now within Paragraphs
+            table (Table-obj): The same content, but now within Paragraphs
         """
         # Define grid 
         table_style = TableStyle()

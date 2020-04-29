@@ -9,6 +9,8 @@ __pycache__/
 # VSCode
 .vscode/
 
+.DS_Store
+
 # Reportlab
 bin/
 lib/
