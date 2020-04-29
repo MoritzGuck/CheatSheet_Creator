@@ -9,6 +9,12 @@ __pycache__/
 # VSCode
 .vscode
 
+# Reportlab
+bin/
+lib/
+CheatSheet_Creator/
+include/
+
 # Distribution / packaging
 .Python
 build/
