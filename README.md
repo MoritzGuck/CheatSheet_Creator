@@ -1,3 +1,6 @@
+> [!NOTE]  
+> This repo is not maintained anymore. My cheatsheets are now rendered on this [static page](https://moritzguck.github.io/Code-Cheatsheets/). You can find the new project [here](https://github.com/MoritzGuck/Code-Cheatsheets).
+
 # CheatSheet_Creator
 
 A program that creates minimalist programming-cheatsheets from JSON-  and YAML-files.
